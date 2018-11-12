@@ -63,7 +63,7 @@ def main():
             if event.type == MOUSEBUTTONDOWN and event.button == 1:
                 mouse_pos = event.pos
                 if play_pos.collidepoint(mouse_pos):
-                    play()
+                    game = play_game(screen)
                 elif settings_pos.collidepoint(mouse_pos):
                     print("settings")
                 elif exit_pos.collidepoint(mouse_pos):
@@ -74,12 +74,11 @@ def main():
 
         pygame.display.flip()
 
-def play():
+def play_game(screen):
     """
         This is the loop of the game
     """
     play = True
-
     while play == True:
         background = pygame.image.load(img_background).convert()
         wall = pygame.image.load(img_blue_wall).convert()
@@ -101,6 +100,10 @@ def play():
                 if sprite[0] == 14:
                     line_number += 1
 
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                return False
+            
         pygame.display.flip()
 
 
