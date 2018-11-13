@@ -42,7 +42,7 @@ def main():
     play_game_state = False
     settings_state = False
 
-    pygame.mixer.music.play(loops=-1)
+    #pygame.mixer.music.play(loops=-1)
 
     while game == True:
         screen.fill((0,0,0))
@@ -111,13 +111,12 @@ def play_game(screen):
                 screen.blit(background, (0,0))
                 map_game.display(screen)
                 if event.key == K_RIGHT or K_LEFT or K_UP or K_DOWN:                    
-                    macgyver.move(screen, event.key)
+                    macgyver.move(screen, event.key, map_game.walls_positions)
                 if event.key == K_ESCAPE or event.key == K_SPACE:
                     return False
 
             if event.type == QUIT:
-                return False
-        
+                return False        
             
         pygame.display.flip()
 
