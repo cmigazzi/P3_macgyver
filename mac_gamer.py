@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 
 from constants import *
-from classes import MapGame, MacGyver
+from classes import MapGame, MacGyver, Guard
 
 def main():
     """
@@ -99,9 +99,12 @@ def play_game(screen):
     background = pygame.image.load(img_background).convert()   
     map_game = MapGame()
     macgyver = MacGyver()
+    guard = Guard()
+
     # guard = pygame.image.load(img_guard).convert_alpha()
     screen.blit(background, (0,0))
     map_game.display(screen)
+    guard.display(screen)
     macgyver.display(screen)
 
     play = True
@@ -110,6 +113,7 @@ def play_game(screen):
             if event.type == KEYDOWN:
                 screen.blit(background, (0,0))
                 map_game.display(screen)
+                guard.display(screen)
                 if event.key == K_RIGHT or K_LEFT or K_UP or K_DOWN:                    
                     macgyver.move(screen, event.key, map_game.walls_positions)
                 if event.key == K_ESCAPE or event.key == K_SPACE:
@@ -117,7 +121,29 @@ def play_game(screen):
 
             if event.type == QUIT:
                 return False        
-            
+
+        if guard.position == macgyver.position:
+            play = False
+            ending = True
+        pygame.display.flip()
+
+    while ending == True:
+        win_font = pygame.font.SysFont("arial", 100, bold=True)
+        comment_font = pygame.font.SysFont("arial", 32, bold=True)
+        win = win_font.render("YOU WIN !!!!", 1, (0,0,0), (0,255,0))
+        win_pos = win.get_rect(center=(300, 300))
+        comment = comment_font.render("Press any key to return to menu", 1, (0,0,0), (0, 255, 0))
+        comment_pos = comment.get_rect(center=(300, 450))
+
+        screen.blit(background, (0,0))
+        map_game.display(screen)
+        screen.blit(win, win_pos)
+        screen.blit(comment, comment_pos)
+
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                return False        
+
         pygame.display.flip()
 
 
@@ -140,7 +166,6 @@ def settings_view(screen):
                 return False
         
         pygame.display.flip()
-        
 
 
 
