@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 
 from constants import *
+from classes import MapGame, MacGyver
 
 def main():
     """
@@ -95,38 +96,27 @@ def play_game(screen):
         This is the loop of the game
     """
     play = True
+    first = True
     while play == True:
-        background = pygame.image.load(img_background).convert()
-        wall = pygame.image.load(img_blue_wall).convert()
-        guard = pygame.image.load(img_guard).convert_alpha()
-
+        background = pygame.image.load(img_background).convert()   
+        map_game = MapGame()
+        macgyver = MacGyver()
+        # guard = pygame.image.load(img_guard).convert_alpha()
         screen.blit(background, (0,0))
-
-        with open("map.txt") as file:
-            map = file.read().split("\n")
-            del map[-1]
-
-        line_number = 0
-
-        for line in map:
-            for sprite in enumerate(line):
-                x = sprite[0] * sprite_size
-                y = line_number * sprite_size
-                if sprite[1] == "W":
-                    screen.blit(wall, (x, y))
-                if sprite[1] == "F":
-                    screen.blit(guard, (x, y))
-                if sprite[0] == 14:
-                    line_number += 1
-
+        map_game.display(screen)
+        macgyver.display(screen)
+        
+        
         for event in pygame.event.get():
             if event.type == KEYDOWN:
+                if event.key == K_RIGHT:
+                    macgyver.move("RIGHT")
                 if event.key == K_ESCAPE or event.key == K_SPACE:
                     return False
 
             if event.type == QUIT:
                 return False
-               
+        
             
         pygame.display.flip()
 
