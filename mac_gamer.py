@@ -4,7 +4,7 @@ import pygame
 from pygame.locals import *
 
 from constants import *
-from classes import MapGame, MacGyver, Guard, Object
+from classes import MapGame, MacGyver, Guard, Object, Counter
 
 def main():
     """
@@ -127,6 +127,9 @@ def play_game(screen):
     for (obj, position) in objects_with_positions:
         obj.display(screen, position)
 
+    counter = Counter(number_of_objects)
+    counter.display(screen)
+
     play = True
     while play == True:               
         for event in pygame.event.get():
@@ -134,6 +137,7 @@ def play_game(screen):
                 screen.blit(background, (0,0))
                 map_game.display(screen)
                 guard.display(screen)
+                counter.display(screen)
                 for obj in objects:
                     obj.display(screen)
                 if event.key == K_RIGHT or K_LEFT or K_UP or K_DOWN:                    

@@ -40,9 +40,7 @@ class MapGame():
 
         if first == True:
             self.walls_positions = walls_positions
-            self.path_positions = path_positions
-        
-
+            self.path_positions = path_positions    
 
 class MacGyver():
     """Represents the main character, MacGyver"""
@@ -146,3 +144,17 @@ class Object():
             self.position = position
 
         screen.blit(self.image, self.position)
+
+class Counter():
+    def __init__(self, nb_obj):
+        n = 0
+        font = pygame.font.SysFont("arial", 20, bold=True)
+        text_list = ["ITEMS: ", str(n), "/", str(nb_obj)]
+        text = "".join(text_list)
+
+        text = font.render(text, 1, (255,255,0))
+        self.image = text
+    
+    def display(self, screen):
+        position = self.image.get_rect(center=(300, 20))
+        screen.blit(self.image, position)
