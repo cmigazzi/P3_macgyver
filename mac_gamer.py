@@ -11,6 +11,7 @@ def main():
     pygame.display.init()
     pygame.font.init()
     pygame.mixer.init()
+    pygame.key.set_repeat(400, 30)
 
     # screen init
     screen = pygame.display.set_mode((screen_size, screen_size))
@@ -95,22 +96,22 @@ def play_game(screen):
     """
         This is the loop of the game
     """
+    background = pygame.image.load(img_background).convert()   
+    map_game = MapGame()
+    macgyver = MacGyver()
+    # guard = pygame.image.load(img_guard).convert_alpha()
+    screen.blit(background, (0,0))
+    map_game.display(screen)
+    macgyver.display(screen)
+
     play = True
-    first = True
-    while play == True:
-        background = pygame.image.load(img_background).convert()   
-        map_game = MapGame()
-        macgyver = MacGyver()
-        # guard = pygame.image.load(img_guard).convert_alpha()
-        screen.blit(background, (0,0))
-        map_game.display(screen)
-        macgyver.display(screen)
-        
-        
+    while play == True:               
         for event in pygame.event.get():
             if event.type == KEYDOWN:
-                if event.key == K_RIGHT:
-                    macgyver.move("RIGHT")
+                screen.blit(background, (0,0))
+                map_game.display(screen)
+                if event.key == K_RIGHT or K_LEFT or K_UP or K_DOWN:                    
+                    macgyver.move(screen, event.key)
                 if event.key == K_ESCAPE or event.key == K_SPACE:
                     return False
 
