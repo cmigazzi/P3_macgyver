@@ -9,7 +9,7 @@ class MapGame():
         img_wall = "graphics/blue_wall.png"
         self.wall = pygame.image.load(img_wall).convert()
 
-    def display(self, screen):
+    def display(self, screen, first=False):
         """Generates and diplays the map for the game
         
         Arguments:
@@ -17,10 +17,10 @@ class MapGame():
         """
         with open("map.txt") as file:
             map = file.read().split("\n")
-            del map[-1]
 
         line_number = 0
         walls_positions = []
+        path_positions = []
 
         for line in map:
             for sprite in enumerate(line):
@@ -28,12 +28,19 @@ class MapGame():
                 y = line_number * sprite_size
                 if sprite[1] == "W":
                     wall_position = self.wall.get_rect(topleft=(x,y))
-                    walls_positions.append(wall_position)
+                    if first == True:
+                        walls_positions.append(wall_position)
                     screen.blit(self.wall, wall_position)
+                if sprite[1] == " ":
+                    path_position = pygame.Rect(x,y,sprite_size,sprite_size)
+                    if first == True:
+                        path_positions.append(path_position)
                 if sprite[0] == 14:
                     line_number += 1
 
-        self.walls_positions = walls_positions
+        if first == True:
+            self.walls_positions = walls_positions
+            self.path_positions = path_positions
         
 
 
@@ -51,7 +58,6 @@ class MacGyver():
         """
         with open("map.txt") as file:
             map = file.read().split("\n")
-            del map[-1]
 
         line_number = 0
 
@@ -90,8 +96,8 @@ class MacGyver():
             new_position = self.position.move(0,sprite_size)            
         if direction == K_UP:
             new_position = self.position.move(0,-sprite_size)
-        
-        if new_position not in impossible_ways:
+
+        if new_position not in impossible_ways and new_position.top >= 0 and new_position.left >= 0:
             self.position = new_position
 
         screen.blit(self.image, self.position)
@@ -115,7 +121,6 @@ class Guard():
         """
         with open("map.txt") as file:
             map = file.read().split("\n")
-            del map[-1]
 
         line_number = 0
 
@@ -127,4 +132,17 @@ class Guard():
                     self.position = self.image.get_rect(topleft=(x,y))
                     screen.blit(self.image, self.position)
                 if sprite[0] == 14:
-                    line_number += 1        
+                    line_number += 1
+
+class Object():
+    """Represents an object on the map"""        
+    def __init__(self, img_path):
+        img_object = pygame.image.load(img_path).convert_alpha()
+        self.image = img_object
+        self.position = None
+    
+    def display(self, screen, position=None):
+        if self.position == None:
+            self.position = position
+
+        screen.blit(self.image, self.position)

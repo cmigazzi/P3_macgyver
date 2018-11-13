@@ -7,8 +7,8 @@ screen_size = sprite_number * sprite_size
 # Images
 img_intro = "graphics/intro.png"
 img_background = "graphics/background.png"
-# img_blue_wall = "graphics/blue_wall.png"
-# img_guard = "graphics/gardien.png"
+img_obj_1 = "graphics/pieces.png"
+img_obj_2 = "graphics/coffre.png"
 
 # Sounds
 music_intro = "sounds/intro_loop.ogg"

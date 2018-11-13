@@ -1,8 +1,10 @@
+import random
+
 import pygame
 from pygame.locals import *
 
 from constants import *
-from classes import MapGame, MacGyver, Guard
+from classes import MapGame, MacGyver, Guard, Object
 
 def main():
     """
@@ -96,16 +98,34 @@ def play_game(screen):
     """
         This is the loop of the game
     """
-    background = pygame.image.load(img_background).convert()   
-    map_game = MapGame()
-    macgyver = MacGyver()
-    guard = Guard()
-
-    # guard = pygame.image.load(img_guard).convert_alpha()
+    background = pygame.image.load(img_background).convert()
     screen.blit(background, (0,0))
-    map_game.display(screen)
-    guard.display(screen)
+       
+    map_game = MapGame()
+    map_game.display(screen, first=True)
+    #Get walls and path coordonates
+    walls_list = map_game.walls_positions
+    paths_list = map_game.path_positions
+
+    macgyver = MacGyver()
     macgyver.display(screen)
+
+    guard = Guard()
+    guard.display(screen)
+
+    objects = [Object(img_obj_1), 
+               Object(img_obj_2),
+               Object(img_obj_1),
+               Object(img_obj_2)]
+
+    number_of_objects = len(objects)
+
+    objects_positions = random.sample(paths_list, number_of_objects)
+
+    objects_with_positions = list(zip(objects, objects_positions))
+
+    for (obj, position) in objects_with_positions:
+        obj.display(screen, position)
 
     play = True
     while play == True:               
@@ -114,13 +134,19 @@ def play_game(screen):
                 screen.blit(background, (0,0))
                 map_game.display(screen)
                 guard.display(screen)
+                for obj in objects:
+                    obj.display(screen)
                 if event.key == K_RIGHT or K_LEFT or K_UP or K_DOWN:                    
-                    macgyver.move(screen, event.key, map_game.walls_positions)
+                    macgyver.move(screen, event.key, walls_list)
                 if event.key == K_ESCAPE or event.key == K_SPACE:
                     return False
 
             if event.type == QUIT:
                 return False        
+        
+        for obj in objects:
+            if macgyver.position == obj.position:
+                del obj
 
         if guard.position == macgyver.position:
             play = False
@@ -130,9 +156,9 @@ def play_game(screen):
     while ending == True:
         win_font = pygame.font.SysFont("arial", 100, bold=True)
         comment_font = pygame.font.SysFont("arial", 32, bold=True)
-        win = win_font.render("YOU WIN !!!!", 1, (0,0,0), (0,255,0))
+        win = win_font.render("YOU WIN !!!!", 1, (0,0,0), (255,255,255))
         win_pos = win.get_rect(center=(300, 300))
-        comment = comment_font.render("Press any key to return to menu", 1, (0,0,0), (0, 255, 0))
+        comment = comment_font.render("Press any key to return to menu", 1, (0,0,0), (255,255,255))
         comment_pos = comment.get_rect(center=(300, 450))
 
         screen.blit(background, (0,0))
@@ -141,11 +167,10 @@ def play_game(screen):
         screen.blit(comment, comment_pos)
 
         for event in pygame.event.get():
-            if event.type == QUIT:
+            if event.type == QUIT or event.type == KEYDOWN:
                 return False        
 
         pygame.display.flip()
-
 
 def settings_view(screen):
     """
@@ -166,8 +191,6 @@ def settings_view(screen):
                 return False
         
         pygame.display.flip()
-
-
 
 if __name__ == "__main__":
     main()
