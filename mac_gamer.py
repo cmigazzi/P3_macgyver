@@ -155,19 +155,30 @@ def play_game(screen):
         if guard.position == macgyver.position:
             play = False
             ending = True
+            
         pygame.display.flip()
 
     while ending == True:
-        win_font = pygame.font.SysFont("arial", 100, bold=True)
-        comment_font = pygame.font.SysFont("arial", 32, bold=True)
-        win = win_font.render("YOU WIN !!!!", 1, (0,0,0), (255,255,255))
-        win_pos = win.get_rect(center=(300, 300))
-        comment = comment_font.render("Press any key to return to menu", 1, (0,0,0), (255,255,255))
-        comment_pos = comment.get_rect(center=(300, 450))
+        if number_of_objects - items_found == 0:
+            result_font = pygame.font.SysFont("arial", 100, bold=True)
+            comment_font = pygame.font.SysFont("arial", 32, bold=True)
+            result = result_font.render("YOU WIN !!!!", 1, (0,0,0), (255,255,255))
+            result_pos = result.get_rect(center=(300, 300))
+            comment = comment_font.render("Press any key to return to menu", 1, (0,0,0), (255,255,255))
+            comment_pos = comment.get_rect(center=(300, 450))
+        
+        else:
+            result_font = pygame.font.SysFont("arial", 87, bold=True)
+            comment_font = pygame.font.SysFont("arial", 32, bold=True)
+            result = result_font.render("YOU LOOSE...", 1, (255,255,255), (0,0,0))
+            result_pos = result.get_rect(center=(300, 300))
+            comment = comment_font.render("Press any key to return to menu", 1, (255,255,255), (0,0,0))
+            comment_pos = comment.get_rect(center=(300, 450))
+
 
         screen.blit(background, (0,0))
         map_game.display(screen)
-        screen.blit(win, win_pos)
+        screen.blit(result, result_pos)
         screen.blit(comment, comment_pos)
 
         for event in pygame.event.get():
