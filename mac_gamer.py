@@ -253,7 +253,7 @@ def settings_view(screen, states):
     music_text_pos = music_text.get_rect()
     music_text_pos.center = (250, 180)
 
-    on_off_text = settings_text_font.render("OFF", 1, (255,255,255))
+    on_off_text = settings_text_font.render("ON", 1, (255,255,255))
     on_off_pos = on_off_text.get_rect()
     on_off_pos.center = (350, 180)
 
@@ -371,17 +371,17 @@ def settings_view(screen, states):
                 
                 elif on_off_pos.collidepoint(mouse_pos):
                     if states["music"] == True:
-                            on_or_off = "OFF"
+                            on_or_off = "ON"
                     else:
-                        on_or_off = "ON"
+                        on_or_off = "OFF"
                     on_off_text = settings_text_font.render(on_or_off, 1, (255,255,0))
 
                 else:
                     menu_text = settings_text_font.render("RETURN TO MENU", 1, (255,255,255))
                     if states["music"] == True:
-                            on_or_off = "OFF"
+                            on_or_off = "ON"
                     else:
-                        on_or_off = "ON"
+                        on_or_off = "OFF"
                     on_off_text = settings_text_font.render(on_or_off, 1, (255,255,255))
 
                     is_border_active = {
@@ -408,9 +408,9 @@ def settings_view(screen, states):
                     if on_off_pos.collidepoint(mouse_pos):
                         states["music"] = not states["music"] 
                         if states["music"] == True:
-                            on_or_off = "OFF"
-                        else:
                             on_or_off = "ON"
+                        else:
+                            on_or_off = "OFF"
 
                         on_off_text = settings_text_font.render(on_or_off, 1, (255,255,255))
                         
