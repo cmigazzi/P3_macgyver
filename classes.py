@@ -5,8 +5,8 @@ from constants import *
 
 class MapGame():
     """Represents the map"""
-    def __init__(self):
-        img_wall = "graphics/blue_wall.png"
+    def __init__(self, wall_color):
+        img_wall = walls[wall_color]
         self.wall = pygame.image.load(img_wall).convert()
 
     def display(self, screen, first=False):
@@ -152,7 +152,7 @@ class Counter():
     
     def display(self, screen, items_found=0):
 
-        
+
         font = pygame.font.SysFont("arial", 20, bold=True)
         text_list = ["ITEMS: ", str(items_found), "/", str(self.nb_items)]
         text = "".join(text_list)
