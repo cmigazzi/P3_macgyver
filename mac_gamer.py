@@ -137,7 +137,7 @@ def play_game(screen):
                 screen.blit(background, (0,0))
                 map_game.display(screen)
                 guard.display(screen)
-                counter.display(screen)
+                counter.display(screen, items_found)
                 for obj in objects:
                     obj.display(screen)
                 if event.key == K_RIGHT or K_LEFT or K_UP or K_DOWN:                    
@@ -148,9 +148,9 @@ def play_game(screen):
             if event.type == QUIT:
                 return False        
         
-        for obj in objects:
-            if macgyver.position == obj.position:
-                del obj
+        objects = [o for o in objects if not o.position.topleft == macgyver.position.topleft]
+
+        items_found = number_of_objects - len(objects)
 
         if guard.position == macgyver.position:
             play = False

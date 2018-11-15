@@ -146,15 +146,19 @@ class Object():
         screen.blit(self.image, self.position)
 
 class Counter():
-    def __init__(self, nb_obj):
-        n = 0
-        font = pygame.font.SysFont("arial", 20, bold=True)
-        text_list = ["ITEMS: ", str(n), "/", str(nb_obj)]
-        text = "".join(text_list)
+    def __init__(self, nb_items):
+        self.nb_items = nb_items
+        self.items_found = 0        
+    
+    def display(self, screen, items_found=0):
 
+        
+        font = pygame.font.SysFont("arial", 20, bold=True)
+        text_list = ["ITEMS: ", str(items_found), "/", str(self.nb_items)]
+        text = "".join(text_list)
         text = font.render(text, 1, (255,255,0))
         self.image = text
-    
-    def display(self, screen):
+        
+
         position = self.image.get_rect(center=(300, 20))
         screen.blit(self.image, position)
