@@ -165,7 +165,6 @@ def play_game(screen, states):
                     states["menu"] = True      
 
                 if states["play_game"] == True:   
-                              
 
                     if event.key == K_RIGHT or K_LEFT or K_UP or K_DOWN:  
                         screen.blit(background, (0,0))
@@ -174,7 +173,8 @@ def play_game(screen, states):
                         for obj in objects:
                                     obj.display(screen)
                         counter.display(screen, items_found)                     
-                        macgyver.move(screen, event.key, walls_list)              
+                        macgyver.move(screen, event.key, walls_list)
+         
                            
         
         if states["play_game"] == True:

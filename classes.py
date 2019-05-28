@@ -96,7 +96,8 @@ class MacGyver():
             new_position = self.position.move(0,-sprite_size)
 
         if new_position not in impossible_ways and new_position.top >= 0 and new_position.left >= 0:
-            self.position = new_position
+            self.position = new_position        
+        
 
         screen.blit(self.image, self.position)
 
