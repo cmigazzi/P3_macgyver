@@ -1,4 +1,4 @@
-Welcome to Mac Gamer !
+#Welcome to Mac Gamer !
 
 To play, you need python 3.7 to be installed.
 
